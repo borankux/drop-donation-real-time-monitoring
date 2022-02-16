@@ -6,7 +6,6 @@ from flask import render_template
 from playsound import playsound
 import redis
 
-client = redis.Redis()
 
 def get_amount():
     api = "https://api.shuidichou.com/api/cf/v4/user/get-user-case-info"
@@ -29,12 +28,7 @@ def index():
 
 @app.route('/amount')
 def amount():
-    a = get_amount()
-    payed = int(a)
-    previous = int(client.get("amount"))
-    if payed != previous:
-        client.set("amount", payed)
-    return str(a)
+    return str(get_amount())
 
 
 app.run(port=8080)
